@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   Obsidian & Cognac — design tokens
+   Dark is default; Light opt-in via .light on <html>
+   ============================================================ */
+
+:root,
+.dark {
+  --bg: oklch(0.14 0.01 260);
+  --bg-elevated: oklch(0.18 0.01 260);
+  --surface: oklch(0.22 0.01 260);
+  --border: oklch(0.28 0.01 260);
+  --text: oklch(0.97 0.005 260);
+  --text-muted: oklch(0.68 0.01 260);
+  --accent: oklch(0.72 0.14 55);
+  --accent-hover: oklch(0.78 0.14 55);
+  --accent-foreground: oklch(0.14 0.01 260);
+  --success: oklch(0.74 0.15 155);
+  --danger: oklch(0.65 0.20 25);
+  --ring: oklch(0.72 0.14 55 / 0.5);
+}
+
+.light {
+  --bg: oklch(0.98 0.005 80);
+  --bg-elevated: oklch(0.96 0.006 80);
+  --surface: oklch(0.94 0.008 80);
+  --border: oklch(0.86 0.01 80);
+  --text: oklch(0.18 0.01 260);
+  --text-muted: oklch(0.45 0.01 260);
+  --accent: oklch(0.55 0.15 50);
+  --accent-hover: oklch(0.50 0.15 50);
+  --accent-foreground: oklch(0.98 0.005 80);
+  --success: oklch(0.50 0.15 155);
+  --danger: oklch(0.55 0.20 25);
+  --ring: oklch(0.55 0.15 50 / 0.4);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-ring: var(--ring);
+
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-muted-foreground: var(--text-muted);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--accent) 35%, transparent);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.container-x {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 1440px;
+  padding-inline: clamp(1rem, 4vw, 3rem);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01";
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 40s linear infinite; }
+.marquee-pause:hover .animate-marquee { animation-play-state: paused; }
+
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    400px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklch, var(--accent) 18%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+.spotlight:hover::before { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
