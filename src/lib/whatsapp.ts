@@ -11,6 +11,8 @@ export function waLink(message: string) {
 export const waMessages = {
   carInquiry: (c: Pick<Car, "brand" | "model" | "version" | "year" | "price">) =>
     `Hola 👋, me interesa el ${c.brand} ${c.model} ${c.version} (${c.year}) por ${formatPrice(c.price)}. ¿Sigue disponible?`,
+  reserve: (c: Pick<Car, "brand" | "model" | "version" | "year" | "price">) =>
+    `Hola, me gustaría reservar el ${c.brand} ${c.model} ${c.version} (${c.year}) por ${formatPrice(c.price)}. ¿Cómo procedemos para dejarlo apartado?`,
   testDrive: (c: Pick<Car, "brand" | "model" | "year">) =>
     `Hola, me gustaría reservar una prueba del ${c.brand} ${c.model} (${c.year}). ¿Qué disponibilidad tenéis?`,
   financing: (c: Pick<Car, "brand" | "model" | "price">) =>

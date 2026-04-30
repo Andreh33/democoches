@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
-import { ArrowRight, ChevronDown, MessageCircle } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { waLink, waMessages } from "@/lib/whatsapp";
 
@@ -90,35 +90,6 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Reservar pill, floating over the car image area */}
-        <motion.div
-          initial={{ opacity: 0, x: 20, y: 8 }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.45 }}
-          className="mt-10 lg:col-span-5 lg:mt-0 lg:self-end lg:justify-self-end xl:col-span-6"
-        >
-          <a
-            href={waLink(
-              "Hola, me gustaría reservar una visita para ver vuestro inventario en Sevilla. ¿Qué horario tenéis disponible?",
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative inline-flex items-center gap-4 rounded-full border border-border/70 bg-bg/55 py-2 pl-2 pr-7 backdrop-blur-xl transition hover:border-accent/40 hover:bg-bg/70"
-          >
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-accent text-accent-foreground shadow-[0_0_30px_-8px_var(--accent)] transition group-hover:scale-105">
-              <MessageCircle className="h-5 w-5" />
-            </span>
-            <span className="flex flex-col leading-tight">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-text-muted">
-                Reserva tu visita
-              </span>
-              <span className="font-display text-lg font-medium">
-                Reservar por WhatsApp
-              </span>
-            </span>
-            <ArrowRight className="h-4 w-4 text-text-muted transition group-hover:translate-x-0.5 group-hover:text-text" />
-          </a>
-        </motion.div>
       </div>
 
       <motion.div

@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, MapPin, MessageCircle, Calendar, ShieldCheck, ScanLine, Fuel, Cog, Gauge, Zap } from "lucide-react";
+import { Heart, MapPin, MessageCircle, Calendar, ShieldCheck, ScanLine, Fuel, Cog, Gauge, Zap, BookmarkCheck } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -113,7 +113,16 @@ export function CarDetail({ car, similar }: { car: Car; similar: Car[] }) {
             </ul>
 
             <div className="mt-7 space-y-3">
-              <Button asChild variant="whatsapp" size="lg" className="w-full">
+              <Button asChild variant="default" size="lg" className="w-full">
+                <a
+                  href={waLink(waMessages.reserve(car))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <BookmarkCheck /> Reservar
+                </a>
+              </Button>
+              <Button asChild variant="whatsapp" size="md" className="w-full">
                 <a
                   href={waLink(waMessages.carInquiry(car))}
                   target="_blank"
