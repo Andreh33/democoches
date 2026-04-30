@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllCars } from "@/db/queries";
+import { posts } from "@/data/blog";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://autoselect-sevilla.vercel.app";
 
@@ -11,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/coches",
     "/financiacion",
     "/vender-tu-coche",
+    "/blog",
     "/sobre-nosotros",
     "/contacto",
     "/aviso-legal",
@@ -30,5 +32,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...carRoutes];
+  const blogRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
+    url: `${SITE}/blog/${p.slug}`,
+    lastModified: new Date(p.publishedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticRoutes, ...carRoutes, ...blogRoutes];
 }

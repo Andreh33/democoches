@@ -34,6 +34,7 @@ const cols = [
     title: "Empresa",
     links: [
       { href: "/sobre-nosotros", label: "Sobre nosotros" },
+      { href: "/blog", label: "Blog" },
       { href: "/contacto", label: "Contacto" },
       { href: "/aviso-legal", label: "Aviso legal" },
       { href: "/privacidad", label: "Privacidad" },

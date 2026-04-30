@@ -14,6 +14,7 @@ const NAV = [
   { href: "/coches", label: "Inventario" },
   { href: "/financiacion", label: "Financiación" },
   { href: "/vender-tu-coche", label: "Vender tu coche" },
+  { href: "/blog", label: "Blog" },
   { href: "/sobre-nosotros", label: "Sobre nosotros" },
   { href: "/contacto", label: "Contacto" },
 ];
