@@ -6,27 +6,48 @@ import {
   Environment,
   ContactShadows,
   useGLTF,
-  Bounds,
   PerspectiveCamera,
 } from "@react-three/drei";
+import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import * as THREE from "three";
 
 const MODEL_URL = "/models/hero-car.glb";
 
-useGLTF.preload(MODEL_URL);
+const setupLoader = (loader: unknown) => {
+  (loader as { setMeshoptDecoder: (d: typeof MeshoptDecoder) => void })
+    .setMeshoptDecoder(MeshoptDecoder);
+};
+
+useGLTF.preload(MODEL_URL, undefined, undefined, setupLoader as never);
 
 function HeroCar({ paused }: { paused: boolean }) {
-  const { scene } = useGLTF(MODEL_URL);
+  const { scene } = useGLTF(MODEL_URL, undefined, undefined, setupLoader as never);
   const group = useRef<THREE.Group>(null);
   const target = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    // Center & normalise scene size to a known footprint.
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    scene.position.sub(center);
+    const targetWidth = 3.2; // world units along X
+    const scaleFactor = targetWidth / Math.max(size.x, 0.0001);
+    scene.scale.setScalar(scaleFactor);
+    // Drop it onto the ground plane.
+    const newBox = new THREE.Box3().setFromObject(scene);
+    scene.position.y -= newBox.min.y;
+
     scene.traverse((obj) => {
       if ((obj as THREE.Mesh).isMesh) {
         const m = obj as THREE.Mesh;
         m.castShadow = true;
         m.receiveShadow = true;
-        const mat = m.material as THREE.MeshStandardMaterial | THREE.MeshStandardMaterial[];
+        const mat = m.material as
+          | THREE.MeshStandardMaterial
+          | THREE.MeshStandardMaterial[];
         const mats = Array.isArray(mat) ? mat : [mat];
         for (const x of mats) {
           if (x && "envMapIntensity" in x) {
@@ -80,18 +101,16 @@ function Scene({ paused }: { paused: boolean }) {
         <Environment preset="studio" environmentIntensity={0.65} />
       </Suspense>
 
-      <PerspectiveCamera makeDefault position={[5.5, 1.6, 6.2]} fov={32} />
+      <PerspectiveCamera makeDefault position={[6, 2.4, 7]} fov={26} />
 
-      <Bounds fit clip={false} margin={1.15}>
-        <HeroCar paused={paused} />
-      </Bounds>
+      <HeroCar paused={paused} />
 
       <ContactShadows
-        position={[0, -0.62, 0]}
+        position={[0, -0.02, 0]}
         opacity={0.55}
-        scale={14}
-        blur={2.6}
-        far={4}
+        scale={9}
+        blur={2.4}
+        far={3.5}
       />
     </>
   );
